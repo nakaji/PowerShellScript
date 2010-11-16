@@ -3,12 +3,11 @@ Param([String]$templateName="TestData\Test.tpl")
 function InsertFile([String]$directory, [String]$fileName)
 {
     $insertFileName = Join-Path $directory $fileName
-    $buf = ""
     if (-not(Test-Path $insertFileName)) {
         Write-Error ("ファイルが存在しません：" + $insertFileName)
         return;
     }
-    return Get-Content $insertFileName
+    Get-Content $insertFileName
 }
 
 Get-Content $templateName | 
@@ -24,7 +23,7 @@ Get-Content $templateName |
     }
 } | %{
         # 「/*<REPLACE hoge */ piyo /*>*/」 を 「hoge」に置換
-        ($_ -replace '/\*<REPLACE\s+(.+)\s+\*/\s.+\s/\*>\*/', '$1')
+        $_ -replace '/\*<REPLACE\s+(.+)\s+\*/\s.+\s/\*>\*/', '$1'
     }
 
 
