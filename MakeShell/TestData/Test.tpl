@@ -1,5 +1,5 @@
-#!/ust/bin
+#!/bin/sh
 
-sqlplus test/test@test << EOF
+sqlplus test/test@orcl << EOF
 #INSERT<test_01.sql>
 EOF
