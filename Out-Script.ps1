@@ -1,4 +1,4 @@
-# ƒf[ƒ^ƒx[ƒXƒIƒuƒWƒFƒNƒg‚ÌƒXƒNƒŠƒvƒg‚ğo—Í‚·‚é
+# ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å‡ºåŠ›ã™ã‚‹
 param($serverName, $databaseName, $objectType, $scriptFileName)
 
 $objectTypes=@("Tables", "StoredProcedures", "Views", "Synonyms", "UserDefinedTypes", "UserDefinedFunctions", "Triggers")
@@ -23,19 +23,19 @@ function ArgCheck() {
 }
 
 function OutputSelectDatabaseScript() {
-    #ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+    #ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
     Add-Content -Path $scriptFileName -encoding Unicode -Value "USE [$databaseName]"
     Add-Content -Path $scriptFileName -encoding Unicode -Value "GO"
     Add-Content -Path $scriptFileName -encoding Unicode -Value ""
 }
 
-#ƒAƒZƒ“ƒuƒŠ‚Ì“Ç‚İ‚İ
+#ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®èª­ã¿è¾¼ã¿
 [void][reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
-#ˆø”ƒ`ƒFƒbƒN
+#å¼•æ•°ãƒã‚§ãƒƒã‚¯
 ArgCheck
 
-#’Ç‹L‚·‚é‚Ì‚ÅŠù‚Éƒtƒ@ƒCƒ‹‚ª‚ ‚éê‡‚Ío—Íƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+#è¿½è¨˜ã™ã‚‹ã®ã§æ—¢ã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹å ´åˆã¯å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
 if (Test-Path $scriptFileName) {
     Remove-Item $scriptFileName
 }
@@ -44,24 +44,24 @@ $server = New-Object Microsoft.SqlServer.Management.Smo.Server($serverName)
 $db = $server.Databases[$databaseName]
 
 $scripter = New-Object Microsoft.SqlServer.Management.Smo.Scripter($server)
-#o—Í‚·‚éƒXƒNƒŠƒvƒg‚Ìİ’è
-$scripter.Options.FileName = $scriptFileName      #o—Íæƒtƒ@ƒCƒ‹
-$scripter.Options.Indexes = $true                 #ƒCƒ“ƒfƒbƒNƒX‚ğŠÜ‚ß‚é
-$scripter.Options.ClusteredIndexes = $true        #ƒNƒ‰ƒXƒ^[‰»ƒCƒ“ƒfƒbƒNƒX‚ğŠÜ‚ß‚é
-$scripter.Options.WithDependencies = $false       #ˆË‘¶ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ß‚È‚¢
-$scripter.Options.DriAll = $false                 #QÆ®‡«‚Ìo—Í‚ğŠÜ‚ß‚È‚¢
-$scripter.Options.ToFileOnly = $true              #ƒRƒ“ƒ\[ƒ‹o—Í‚µ‚È‚¢
-$scripter.Options.Triggers = $true                #ƒgƒŠƒK[‚ğŠÜ‚ß‚é
+#å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®è¨­å®š
+$scripter.Options.FileName = $scriptFileName      #å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«
+$scripter.Options.Indexes = $true                 #ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å«ã‚ã‚‹
+$scripter.Options.ClusteredIndexes = $true        #ã‚¯ãƒ©ã‚¹ã‚¿ãƒ¼åŒ–ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å«ã‚ã‚‹
+$scripter.Options.WithDependencies = $false       #ä¾å­˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å«ã‚ãªã„
+$scripter.Options.DriAll = $false                 #å‚ç…§æ•´åˆæ€§ã®å‡ºåŠ›ã‚’å«ã‚ãªã„
+$scripter.Options.ToFileOnly = $true              #ã‚³ãƒ³ã‚½ãƒ¼ãƒ«å‡ºåŠ›ã—ãªã„
+$scripter.Options.Triggers = $true                #ãƒˆãƒªã‚¬ãƒ¼ã‚’å«ã‚ã‚‹
 $scripter.Options.AnsiPadding = $true             #
-$scripter.Options.AppendToFile = $true            #ƒtƒ@ƒCƒ‹‚É’Ç‹L‚·‚é
-$scripter.Options.IncludeHeaders = $true          #¶¬“ú‚È‚Ç‚Ìî•ñ‚ğŠÜ‚Şƒwƒbƒ_[‚ğo—Í‚·‚é
-$scripter.Options.ExtendedProperties = $true      #Šg’£ƒvƒƒpƒeƒB‚ğŠÜ‚ß‚é
+$scripter.Options.AppendToFile = $true            #ãƒ•ã‚¡ã‚¤ãƒ«ã«è¿½è¨˜ã™ã‚‹
+$scripter.Options.IncludeHeaders = $true          #ç”Ÿæˆæ—¥æ™‚ãªã©ã®æƒ…å ±ã‚’å«ã‚€ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
+$scripter.Options.ExtendedProperties = $true      #æ‹¡å¼µãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å«ã‚ã‚‹
 
-#o—Í‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ğæ“¾
+#å‡ºåŠ›å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
 $objects = [Microsoft.SqlServer.Management.Smo.SqlSmoObject[]]$db."$objectType" | ?{ -not $_.IsSystemObject }
 
-# ===== Drop•¶‚ğo—Í =====
-#ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+# ===== Dropæ–‡ã‚’å‡ºåŠ› =====
+#ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
 OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $true
@@ -70,8 +70,8 @@ $scripter.Script($objects)
 
  
 
-# ===== Create•¶‚ğo—Í =====
-#ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+# ===== Createæ–‡ã‚’å‡ºåŠ› =====
+#ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
 OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $false

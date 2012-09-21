@@ -1,4 +1,4 @@
-# SQLServer‚É“o˜^‚³‚ê‚½ƒWƒ‡ƒu‚ÌƒXƒNƒŠƒvƒg‚ğo—Í‚·‚é
+# SQLServerã«ç™»éŒ²ã•ã‚ŒãŸã‚¸ãƒ§ãƒ–ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å‡ºåŠ›ã™ã‚‹
 param($serverName, $scriptFileName)
 
 $databaseName = "msdb"
@@ -16,19 +16,19 @@ function ArgCheck() {
 }
 
 function OutputSelectDatabaseScript() {
-    #ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+    #ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
     Add-Content -Path $scriptFileName -encoding Unicode -Value "USE [$databaseName]"
     Add-Content -Path $scriptFileName -encoding Unicode -Value "GO"
     Add-Content -Path $scriptFileName -encoding Unicode -Value ""
 }
 
-#ƒAƒZƒ“ƒuƒŠ‚Ì“Ç‚İ‚İ
+#ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®èª­ã¿è¾¼ã¿
 [void][reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
-#ˆø”ƒ`ƒFƒbƒN
+#å¼•æ•°ãƒã‚§ãƒƒã‚¯
 ArgCheck
 
-#’Ç‹L‚·‚é‚Ì‚ÅŠù‚Éƒtƒ@ƒCƒ‹‚ª‚ ‚éê‡‚Ío—Íƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+#è¿½è¨˜ã™ã‚‹ã®ã§æ—¢ã«ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹å ´åˆã¯å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
 if (Test-Path $scriptFileName) {
     Remove-Item $scriptFileName
 }
@@ -36,26 +36,26 @@ if (Test-Path $scriptFileName) {
 $server = New-Object Microsoft.SqlServer.Management.Smo.Server($serverName)
 
 $scripter = New-Object Microsoft.SqlServer.Management.Smo.Scripter($server)
-#o—Í‚·‚éƒXƒNƒŠƒvƒg‚Ìİ’è
-$scripter.Options.FileName = $scriptFileName      #o—Íæƒtƒ@ƒCƒ‹
-$scripter.Options.WithDependencies = $false       #ˆË‘¶ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ß‚È‚¢
-$scripter.Options.ToFileOnly = $true              #ƒRƒ“ƒ\[ƒ‹o—Í‚µ‚È‚¢
-$scripter.Options.AppendToFile = $true            #ƒtƒ@ƒCƒ‹‚É’Ç‹L‚·‚é
-$scripter.Options.IncludeHeaders = $true          #¶¬“ú‚È‚Ç‚Ìî•ñ‚ğŠÜ‚Şƒwƒbƒ_[‚ğo—Í‚·‚é
+#å‡ºåŠ›ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®è¨­å®š
+$scripter.Options.FileName = $scriptFileName      #å‡ºåŠ›å…ˆãƒ•ã‚¡ã‚¤ãƒ«
+$scripter.Options.WithDependencies = $false       #ä¾å­˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å«ã‚ãªã„
+$scripter.Options.ToFileOnly = $true              #ã‚³ãƒ³ã‚½ãƒ¼ãƒ«å‡ºåŠ›ã—ãªã„
+$scripter.Options.AppendToFile = $true            #ãƒ•ã‚¡ã‚¤ãƒ«ã«è¿½è¨˜ã™ã‚‹
+$scripter.Options.IncludeHeaders = $true          #ç”Ÿæˆæ—¥æ™‚ãªã©ã®æƒ…å ±ã‚’å«ã‚€ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
 
-#o—Í‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ğæ“¾
+#å‡ºåŠ›å¯¾è±¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
 $jobs = [Microsoft.SqlServer.Management.Smo.SqlSmoObject[]]$server.JobServer.Jobs
 
-# ===== Drop•¶‚ğo—Í =====
-#ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+# ===== Dropæ–‡ã‚’å‡ºåŠ› =====
+#ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
 OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $true
 $scripter.Options.IncludeIfNotExists = $true
 $scripter.Script($jobs)
 
-# ===== Create•¶‚ğo—Í =====
-#ƒf[ƒ^ƒx[ƒX‘I‘ğ‚ÌƒRƒ}ƒ“ƒh‚ğo—Í
+# ===== Createæ–‡ã‚’å‡ºåŠ› =====
+#ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é¸æŠã®ã‚³ãƒãƒ³ãƒ‰ã‚’å‡ºåŠ›
 OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $false
