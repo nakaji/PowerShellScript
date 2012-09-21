@@ -57,17 +57,17 @@ $scripter.Options.AppendToFile = $true            #ファイルに追記する
 $scripter.Options.IncludeHeaders = $true          #生成日時などの情報を含むヘッダーを出力する
 $scripter.Options.ExtendedProperties = $true      #拡張プロパティを含める
 
+#出力対象のオブジェクトを取得
+$objects = [Microsoft.SqlServer.Management.Smo.SqlSmoObject[]]$db."$objectType" | ?{ -not $_.IsSystemObject }
+
 # ===== Drop文を出力 =====
 #データベース選択のコマンドを出力
 OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $true
 $scripter.Options.IncludeIfNotExists = $true
-[Microsoft.SqlServer.Management.Smo.SqlSmoObject[]]$db."$objectType" | ?{ -not $_.IsSystemObject } | 
-%{
-    $scripter.Script($_)
-    Add-Content -Path $scriptFileName -encoding Unicode -Value ""
-}
+$scripter.Script($objects)
+
  
 
 # ===== Create文を出力 =====
@@ -76,8 +76,4 @@ OutputSelectDatabaseScript
 
 $scripter.Options.ScriptDrops = $false
 $scripter.Options.IncludeIfNotExists = $false
-[Microsoft.SqlServer.Management.Smo.SqlSmoObject[]]$db."$objectType" | ?{ -not $_.IsSystemObject } | 
-%{
-    $scripter.Script($_)
-    Add-Content -Path $scriptFileName -encoding Unicode -Value ""
-}
+$scripter.Script($objects)
