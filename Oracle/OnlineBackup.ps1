@@ -60,7 +60,7 @@ function DataFileBackup(){
 
     while ( $reader.read() )
     {
-        Write-Host "  " $reader[0, -10] - $reader[1]
+        Write-Host ("  {0, -10} - {1}" -F $reader[0], $reader[1])
 
         #表領域をバックアップモードに変更
         BeginBackup $reader[0]
@@ -92,7 +92,7 @@ function BackupArchiveLog(){
 
     while ( $reader.read() )
     {
-        Write-Host "    " $reader[0, 6] - $reader[1]
+        Write-Host ("  {0, 6} - {1}" -F $reader[0], $reader[1])
         Copy-Item $reader[1] -Destination $archiveBackupDest -Force
     }
 }
