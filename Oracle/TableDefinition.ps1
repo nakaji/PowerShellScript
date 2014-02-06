@@ -1,4 +1,7 @@
-﻿[System.Reflection.Assembly]::LoadWithPartialName("Oracle.DataAccess") | Out-Null
+﻿# Oracleの定義（descの結果）をテーブル単位にファイル出力する
+# 出力先：カレントディレクトリに「入力された[ユーザID]」でディレクトリを作成して出力する
+
+[System.Reflection.Assembly]::LoadWithPartialName("Oracle.DataAccess") | Out-Null
 cls
 
 function GetUserTables {
@@ -25,8 +28,10 @@ param($uid, $pass, $svc, $talbes)
     if (!(Test-Path $uid)) { mkdir $uid | Out-Null }
     $talbes | %{
         $tableName=$_
-        "desc $tableName" | sqlplus -S $uid/$pass@$svc | Out-File "$uid\$tableName.def" -Encoding default
-    }
+        "spool $uid\${tableName}.def"
+        "desc $tableName"
+        "spool off"
+    } | sqlplus -S $uid/$pass@$svc | Out-Null
 }
 
 $uid = Read-Host "UserID:"
