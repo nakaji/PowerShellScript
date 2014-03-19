@@ -1,4 +1,6 @@
-﻿# usage
+﻿# 引数に指定されたユーザのエクステント情報（サイズ、エクステント数、データ件数）を出力する
+# 
+# usage
 #     OutExtentInfo [userid] [password] [sid]
 #
 # PS > . OutExtentInfo.ps1 
