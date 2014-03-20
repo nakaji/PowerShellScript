@@ -38,7 +38,7 @@ function GetCount {
     $cmd = New-Object Oracle.DataAccess.Client.OracleCommand
 
     $cmd.Connection = $conn
-    $cmd.CommandText = "select count(*) from $table_name"
+    $cmd.CommandText = "select count(*) from `"$table_name`""
     $reader = $cmd.ExecuteReader()
 
     if (-not $reader.Read()) { $count = 0 }
@@ -46,6 +46,7 @@ function GetCount {
     $reader.Close()
     return $count
 }
+
 function OutExtentInfo {
     param($uid, $pass, $svc)
     
