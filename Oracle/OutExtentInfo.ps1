@@ -6,7 +6,7 @@
 # PS > . OutExtentInfo.ps1 
 # PS > OutExtentInfo scott tiger orcl
 
-[System.Reflection.Assembly]::LoadWithPartialName("Oracle.DataAccess") | Out-Null
+[void][System.Reflection.Assembly]::LoadWithPartialName("Oracle.DataAccess")
 
 function GetUserTableSize {
     param($conn)
